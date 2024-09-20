@@ -15,8 +15,9 @@ namespace IGDC.InputManager
         public Vector2 Look { get; private set; }
         public bool Run { get; private set; }
         public bool Jump { get; private set; }
-
         public bool camChanged { get; private set; }
+
+        public bool Crouch { get; private set; }
 
         private InputActionMap currentMap;
         private InputAction moveAction;
@@ -24,6 +25,7 @@ namespace IGDC.InputManager
         private InputAction runAction;
         private InputAction jumpAction;
         private InputAction changeCam;
+        private InputAction crouchAction;
 
         private void Awake()
         {
@@ -35,18 +37,21 @@ namespace IGDC.InputManager
             runAction = currentMap.FindAction("Run");
             jumpAction = currentMap.FindAction("Jump");
             changeCam = currentMap.FindAction("ChangePOV");
+            crouchAction = currentMap.FindAction("Crouch");
 
             moveAction.performed += onMove;
             lookAction.performed += onLook;
             runAction.performed += onRun;
             jumpAction.performed += onJump;
             changeCam.performed += onChangeCam;
+            crouchAction.started += onCrouch;
 
             moveAction.canceled += onMove;
             lookAction.canceled += onLook;
             runAction.canceled += onRun;
             jumpAction.canceled += onJump;
             changeCam.canceled += onChangeCam;
+            crouchAction.canceled += onCrouch;
 
         }
 
@@ -77,6 +82,11 @@ namespace IGDC.InputManager
                 camChanged = context.ReadValueAsButton();
             }
             
+        }
+
+        private void onCrouch(InputAction.CallbackContext context)
+        {
+            Crouch = context.ReadValueAsButton();
         }
 
         private void OnEnable()

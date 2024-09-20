@@ -41,6 +41,7 @@ namespace IGDC.PlayerController
         private int fallingHash;
         private int groundedHash;
         private int zVelHash;
+        private int crouchHash;
 
         private bool isGrounded;
 
@@ -66,6 +67,9 @@ namespace IGDC.PlayerController
             groundedHash = Animator.StringToHash("Grounded");
             zVelHash = Animator.StringToHash("z_Velocity");
 
+            crouchHash = Animator.StringToHash("Crouch");
+
+
         }
 
         private void Update()
@@ -79,6 +83,7 @@ namespace IGDC.PlayerController
             detectGround();
             move();
             handleJump();
+            handleCrouch();
 
         }
 
@@ -93,6 +98,11 @@ namespace IGDC.PlayerController
             if (!hasAnimator) return;
 
             float targetSpeed = inputManager.Run ? runSpeed : walkSpeed;
+
+            if (inputManager.Crouch)
+            {
+                targetSpeed = 1.5f;
+            }
 
             if (inputManager.Move == Vector2.zero)
             {
@@ -208,6 +218,13 @@ namespace IGDC.PlayerController
                 thirdPersonVcam.Priority -= 30;
             }
 
+
+        }
+
+        private void handleCrouch()
+        {
+            if (!hasAnimator) return;
+            animator.SetBool(crouchHash, inputManager.Crouch);
 
         }
 
