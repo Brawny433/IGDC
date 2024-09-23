@@ -153,7 +153,7 @@
                     "name": "",
                     "id": "0d066f7b-c403-446d-86f5-d6527f387b3b",
                     "path": "<Keyboard>/c",
-                    "interactions": "",
+                    "interactions": "Press(pressPoint=0.2,behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "ChangePOV",
